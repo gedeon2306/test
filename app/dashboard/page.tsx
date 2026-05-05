@@ -52,11 +52,64 @@ const fadeUp = (i: number) => ({
 
 export default function DashboardPage() {
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200 }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 768px) {
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+          }
+          .main-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .table-header {
+            display: none !important;
+          }
+          .table-row {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+            padding: 12px !important;
+          }
+          .task-title {
+            font-size: 13px !important;
+            margin-bottom: 8px !important;
+          }
+          .task-meta {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            font-size: 11px !important;
+          }
+          .week-grid {
+            grid-template-columns: repeat(7, 1fr) !important;
+            gap: 2px !important;
+          }
+          .week-day {
+            font-size: 9px !important;
+          }
+          .week-number {
+            width: 24px !important;
+            height: 24px !important;
+            font-size: 10px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .header-text {
+            font-size: 18px !important;
+          }
+          .container {
+            padding: 0 12px !important;
+          }
+        }
       `}</style>
 
       {/* Header */}
@@ -64,7 +117,7 @@ export default function DashboardPage() {
         <p style={{ fontSize: 12.5, color: '#b0aeaa', margin: '0 0 4px', fontFamily: "'DM Mono', monospace" }}>
           mardi 6 mai 2025
         </p>
-        <h2 style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: 0, letterSpacing: '-0.02em' }}>
+        <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: 0, letterSpacing: '-0.02em' }}>
           Bonjour, Jean 👋
         </h2>
         <p style={{ fontSize: 12.5, color: '#888580', margin: '4px 0 0' }}>
@@ -73,7 +126,7 @@ export default function DashboardPage() {
       </motion.div>
 
       {/* Stats */}
-      <motion.div {...fadeUp(1)} style={{
+      <motion.div {...fadeUp(1)} className="stats-grid" style={{
         display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 12, marginBottom: 24,
       }}>
@@ -95,7 +148,7 @@ export default function DashboardPage() {
       </motion.div>
 
       {/* Main grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16, alignItems: 'start' }}>
+      <div className="main-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16, alignItems: 'start' }}>
 
         {/* Tasks table */}
         <motion.div {...fadeUp(2)} style={{
@@ -117,7 +170,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Table header */}
-          <div style={{
+          <div className="table-header" style={{
             display: 'grid', gridTemplateColumns: '1fr 110px 90px 80px 70px',
             padding: '8px 18px', borderBottom: '1px solid #f5f4f1',
           }}>
@@ -131,7 +184,7 @@ export default function DashboardPage() {
             const st = statusConfig[t.status];
             const pr = priorityConfig[t.priority];
             return (
-              <div key={i} style={{
+              <div key={i} className="table-row" style={{
                 display: 'grid', gridTemplateColumns: '1fr 110px 90px 80px 70px',
                 padding: '11px 18px',
                 borderBottom: i < TASKS.length - 1 ? '1px solid #f9f8f6' : 'none',
@@ -139,7 +192,7 @@ export default function DashboardPage() {
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = '#fafaf9'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent'; }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, overflow: 'hidden' }}>
+                <div className="task-title" style={{ display: 'flex', alignItems: 'center', gap: 8, overflow: 'hidden' }}>
                   {t.status === 'done'
                     ? <FiCheckCircle size={13} style={{ color: '#1d9e75', flexShrink: 0 }} />
                     : <FiCircle size={13} style={{ color: '#d8d6d2', flexShrink: 0 }} />
@@ -150,16 +203,18 @@ export default function DashboardPage() {
                     whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                   }}>{t.title}</span>
                 </div>
-                <span style={{ fontSize: 11.5, color: '#888580' }}>{t.project}</span>
-                <span style={{
-                  fontSize: 11, padding: '3px 8px', borderRadius: 5, width: 'fit-content',
-                  background: st.bg, color: st.color, fontWeight: 400,
-                }}>{st.label}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: pr.color }} />
-                  <span style={{ fontSize: 11.5, color: '#888580' }}>{t.priority}</span>
+                <div className="task-meta">
+                  <span style={{ fontSize: 11.5, color: '#888580' }}>{t.project}</span>
+                  <span style={{
+                    fontSize: 11, padding: '3px 8px', borderRadius: 5, width: 'fit-content',
+                    background: st.bg, color: st.color, fontWeight: 400,
+                  }}>{st.label}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: pr.color }} />
+                    <span style={{ fontSize: 11.5, color: '#888580' }}>{t.priority}</span>
+                  </div>
+                  <span style={{ fontSize: 11.5, color: '#888580' }}>{t.due}</span>
                 </div>
-                <span style={{ fontSize: 11.5, color: '#888580' }}>{t.due}</span>
               </div>
             );
           })}
@@ -177,14 +232,14 @@ export default function DashboardPage() {
               <span style={{ fontSize: 13, fontWeight: 500, color: '#1a1a1a' }}>Cette semaine</span>
               <span style={{ fontSize: 11, color: '#b0aeaa', fontFamily: "'DM Mono', monospace" }}>Mai 2025</span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
+            <div className="week-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
               {WEEK.map((d, i) => {
                 const isToday = i === TODAY;
                 const count = WEEK_TASKS[i];
                 return (
                   <div key={d} style={{ textAlign: 'center' }}>
-                    <p style={{ fontSize: 10, color: isToday ? '#1a1a1a' : '#b0aeaa', fontWeight: isToday ? 500 : 400, margin: '0 0 5px', textTransform: 'uppercase', letterSpacing: '0.03em' }}>{d}</p>
-                    <div style={{
+                    <p className="week-day" style={{ fontSize: 10, color: isToday ? '#1a1a1a' : '#b0aeaa', fontWeight: isToday ? 500 : 400, margin: '0 0 5px', textTransform: 'uppercase', letterSpacing: '0.03em' }}>{d}</p>
+                    <div className="week-number" style={{
                       width: 28, height: 28, borderRadius: 7, margin: '0 auto',
                       background: isToday ? '#1a1a1a' : '#f5f4f1',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',

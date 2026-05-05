@@ -180,18 +180,69 @@ export default function CalendarPage() {
   ];
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200 }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 768px) {
+          .header-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+          .calendar-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .calendar-days {
+            grid-template-columns: repeat(7, 1fr) !important;
+            gap: 2px !important;
+          }
+          .calendar-day {
+            min-height: 60px !important;
+            padding: 4px !important;
+          }
+          .calendar-day-text {
+            font-size: 9px !important;
+          }
+          .calendar-day-number {
+            width: 20px !important;
+            height: 20px !important;
+            font-size: 9px !important;
+          }
+          .sidebar-events {
+            max-width: none !important;
+          }
+          .container {
+            padding: 0 12px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .header-text {
+            font-size: 18px !important;
+          }
+          .button-text {
+            font-size: 11px !important;
+            padding: 6px 12px !important;
+          }
+          .calendar-days {
+            gap: 1px !important;
+          }
+          .calendar-day {
+            min-height: 50px !important;
+            padding: 2px !important;
+          }
+        }
       `}</style>
 
       {/* Header */}
       <motion.div {...fadeUp(0)} style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <div className="header-flex" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+            <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
               Calendrier
             </h2>
             <p style={{ fontSize: 12.5, color: '#888580', margin: 0 }}>
@@ -201,6 +252,7 @@ export default function CalendarPage() {
           <div style={{ display: 'flex', gap: 8 }}>
             <button
               onClick={goToToday}
+              className="button-text"
               style={{
                 background: '#fff', color: '#1a1a1a', border: '1px solid #e8e6e1',
                 borderRadius: 8, padding: '8px 16px', fontSize: 12.5,
@@ -211,7 +263,7 @@ export default function CalendarPage() {
             >
               Aujourd'hui
             </button>
-            <button style={{
+            <button className="button-text" style={{
               background: '#1a1a1a', color: '#fff', border: 'none',
               borderRadius: 8, padding: '8px 16px', fontSize: 12.5,
               cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
@@ -259,16 +311,16 @@ export default function CalendarPage() {
         </div>
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16 }}>
+      <div className="calendar-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16 }}>
         {/* Calendar */}
         <motion.div {...fadeUp(1)} style={{
           background: '#fff', border: '1px solid #e8e6e1',
           borderRadius: 12, padding: '16px',
         }}>
           {/* Weekday headers */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: 8 }}>
+          <div className="calendar-days" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: 8 }}>
             {WEEKDAYS.map(day => (
-              <div key={day} style={{
+              <div key={day} className="calendar-day-text" style={{
                 textAlign: 'center', fontSize: 11.5, fontWeight: 500,
                 color: '#b0aeaa', padding: '8px 0',
               }}>
@@ -278,13 +330,14 @@ export default function CalendarPage() {
           </div>
           
           {/* Calendar days */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
+          <div className="calendar-days" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
             {days.map((day, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.01, duration: 0.2 }}
+                className="calendar-day"
                 style={{
                   minHeight: 80, padding: '6px 4px',
                   border: day.isToday ? '1px solid #1a1a1a' : '1px solid #f0efeb',
@@ -306,7 +359,7 @@ export default function CalendarPage() {
                   (e.currentTarget as HTMLDivElement).style.background = day.isToday ? '#fafaf9' : '#fff';
                 }}
               >
-                <div style={{ fontSize: 12, fontWeight: day.isToday ? 500 : 400, color: day.isToday ? '#1a1a1a' : '#888580', marginBottom: 4 }}>
+                <div className="calendar-day-number" style={{ fontSize: 12, fontWeight: day.isToday ? 500 : 400, color: day.isToday ? '#1a1a1a' : '#888580', marginBottom: 4 }}>
                   {day.day}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -331,7 +384,7 @@ export default function CalendarPage() {
         </motion.div>
 
         {/* Sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="sidebar-events" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Selected date events */}
           {selectedDate && (
             <motion.div {...fadeUp(2)} style={{

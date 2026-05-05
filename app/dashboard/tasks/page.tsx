@@ -48,25 +48,66 @@ export default function TasksPage() {
   });
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200 }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 768px) {
+          .header-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+          .filters-flex {
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+          .search-container {
+            max-width: 100% !important;
+          }
+          .task-card {
+            padding: 12px !important;
+          }
+          .task-title-mobile {
+            font-size: 13px !important;
+            margin-bottom: 8px !important;
+          }
+          .task-meta-mobile {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            font-size: 11px !important;
+          }
+          .container {
+            padding: 0 12px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .header-text {
+            font-size: 18px !important;
+          }
+          .button-text {
+            font-size: 11px !important;
+            padding: 6px 12px !important;
+          }
+        }
       `}</style>
 
       {/* Header */}
       <motion.div {...fadeUp(0)} style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+        <div className="header-flex" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+            <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
               Mes tâches
             </h2>
             <p style={{ fontSize: 12.5, color: '#888580', margin: 0 }}>
               {filteredTasks.length} tâches trouvées
             </p>
           </div>
-          <button style={{
+          <button className="button-text" style={{
             background: '#1a1a1a', color: '#fff', border: 'none',
             borderRadius: 8, padding: '8px 16px', fontSize: 12.5,
             cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
@@ -80,8 +121,8 @@ export default function TasksPage() {
         </div>
 
         {/* Search and filters */}
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div style={{ position: 'relative', flex: 1, maxWidth: 400 }}>
+        <div className="filters-flex" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          <div className="search-container" style={{ position: 'relative', flex: 1, maxWidth: 400 }}>
             <FiSearch size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#b0aeaa' }} />
             <input
               type="text"
@@ -144,6 +185,7 @@ export default function TasksPage() {
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05, duration: 0.2 }}
+              className="task-card"
               style={{
                 padding: '16px 18px',
                 borderBottom: i < filteredTasks.length - 1 ? '1px solid #f9f8f6' : 'none',
@@ -166,7 +208,7 @@ export default function TasksPage() {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
                     <div style={{ flex: 1 }}>
-                      <h3 style={{
+                      <h3 className="task-title-mobile" style={{
                         fontSize: 13.5, fontWeight: 500, color: task.status === 'done' ? '#b0aeaa' : '#1a1a1a',
                         margin: '0 0 4px', textDecoration: task.status === 'done' ? 'line-through' : 'none',
                       }}>
@@ -187,7 +229,7 @@ export default function TasksPage() {
                     </button>
                   </div>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+                  <div className="task-meta-mobile" style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                       <span style={{ fontSize: 11.5, color: '#b0aeaa' }}>Projet:</span>
                       <span style={{ fontSize: 11.5, color: '#888580' }}>{task.project}</span>

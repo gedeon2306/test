@@ -90,29 +90,75 @@ export default function ProfilePage() {
   };
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1000 }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1000, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 768px) {
+          .profile-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .profile-sidebar {
+            order: -1 !important;
+            margin-bottom: 16px !important;
+          }
+          .profile-main {
+            order: 0 !important;
+          }
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+          }
+          .skills-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .projects-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .container {
+            padding: 0 12px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .header-text {
+            font-size: 18px !important;
+          }
+          .button-text {
+            font-size: 11px !important;
+            padding: 6px 12px !important;
+          }
+          .profile-avatar {
+            width: 64px !important;
+            height: 64px !important;
+            font-size: 20px !important;
+          }
+        }
       `}</style>
 
       {/* Header */}
       <motion.div {...fadeUp(0)} style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+            <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
               Profil
             </h2>
             <p style={{ fontSize: 12.5, color: '#888580', margin: 0 }}>
               Gérez vos informations personnelles et professionnelles
             </p>
           </div>
-          <button
+          <button className="button-text"
             onClick={() => isEditing ? handleSave() : setIsEditing(true)}
             style={{
-              background: isEditing ? '#1d9e75' : '#1a1a1a',
-              color: '#fff', border: 'none',
+              background: isEditing ? '#1d9e75' : '#1a1a1a', color: '#fff', border: 'none',
               borderRadius: 8, padding: '8px 16px', fontSize: 12.5,
               cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
               transition: 'background 0.15s',
@@ -130,16 +176,16 @@ export default function ProfilePage() {
         </div>
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 24 }}>
+      <div className="profile-grid" style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 24 }}>
         {/* Left sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="profile-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Profile card */}
           <motion.div {...fadeUp(1)} style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '24px', textAlign: 'center',
           }}>
             <div style={{ position: 'relative', marginBottom: 16 }}>
-              <div style={{
+              <div className="profile-avatar" style={{
                 width: 80, height: 80, borderRadius: '50%',
                 background: '#1a1a1a', display: 'flex', alignItems: 'center',
                 justifyContent: 'center', fontSize: 24, fontWeight: 500, color: '#fff',
@@ -225,7 +271,7 @@ export default function ProfilePage() {
             <h4 style={{ fontSize: 13, fontWeight: 500, color: '#1a1a1a', margin: '0 0 12px' }}>
               Statistiques
             </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               {stats.map((stat, i) => (
                 <div key={i} style={{ textAlign: 'center' }}>
                   <stat.icon size={16} style={{ color: stat.color, marginBottom: 4 }} />
@@ -242,7 +288,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Main content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="profile-main" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Basic info */}
           <motion.div {...fadeUp(3)} style={{
             background: '#fff', border: '1px solid #e8e6e1',
@@ -379,7 +425,7 @@ export default function ProfilePage() {
               Compétences
             </h3>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="skills-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               {skills.map((skill, i) => (
                 <div key={i}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
@@ -409,7 +455,7 @@ export default function ProfilePage() {
           </motion.div>
 
           {/* Recent projects */}
-          <motion.div {...fadeUp(5)} style={{
+          <motion.div {...fadeUp(5)} className="projects-grid" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '20px',
           }}>
@@ -417,20 +463,21 @@ export default function ProfilePage() {
               Projets récents
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div className="projects-container" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {recentProjects.map((project, i) => (
-                <div key={i} style={{
+                <div key={i} className="project-card" style={{
                   padding: '12px 16px', border: '1px solid #f0efeb',
                   borderRadius: 8, cursor: 'pointer', transition: 'background 0.15s',
                 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = '#fafaf9'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent'; }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent'; }}
+                >
+                  <div className="project-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
                     <div>
-                      <h4 style={{ fontSize: 13, fontWeight: 500, color: '#1a1a1a', margin: '0 0 2px' }}>
+                      <h4 className="project-title" style={{ fontSize: 13, fontWeight: 500, color: '#1a1a1a', margin: '0 0 2px' }}>
                         {project.title}
                       </h4>
-                      <p style={{ fontSize: 11.5, color: '#888580', margin: 0 }}>
+                      <p className="project-role" style={{ fontSize: 11.5, color: '#888580', margin: 0 }}>
                         {project.role}
                       </p>
                     </div>

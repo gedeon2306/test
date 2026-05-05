@@ -101,25 +101,67 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200 }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1200, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 768px) {
+          .header-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+          .filters-flex {
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+          .search-container {
+            max-width: 100% !important;
+          }
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+          }
+          .projects-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .project-card {
+            padding: 16px !important;
+          }
+          .container {
+            padding: 0 12px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .header-text {
+            font-size: 18px !important;
+          }
+          .button-text {
+            font-size: 11px !important;
+            padding: 6px 12px !important;
+          }
+        }
       `}</style>
 
       {/* Header */}
       <motion.div {...fadeUp(0)} style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+        <div className="header-flex" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+            <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
               Projets
             </h2>
             <p style={{ fontSize: 12.5, color: '#888580', margin: 0 }}>
               {filteredProjects.length} projets trouvés
             </p>
           </div>
-          <button style={{
+          <button className="button-text" style={{
             background: '#1a1a1a', color: '#fff', border: 'none',
             borderRadius: 8, padding: '8px 16px', fontSize: 12.5,
             cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
@@ -133,7 +175,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 16 }}>
+        <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 16 }}>
           <div style={{ background: '#fff', border: '1px solid #e8e6e1', borderRadius: 12, padding: '16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <FiFolder size={14} style={{ color: '#c8c6c2' }} />
@@ -176,8 +218,8 @@ export default function ProjectsPage() {
         </div>
 
         {/* Search and filters */}
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <div style={{ position: 'relative', flex: 1, maxWidth: 400 }}>
+        <div className="filters-flex" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+          <div className="search-container" style={{ position: 'relative', flex: 1, maxWidth: 400 }}>
             <FiSearch size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#b0aeaa' }} />
             <input
               type="text"
@@ -227,7 +269,7 @@ export default function ProjectsPage() {
       </motion.div>
 
       {/* Projects grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: 16 }}>
+      <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: 16 }}>
         {filteredProjects.map((project, i) => {
           const st = statusConfig[project.status];
           const pr = priorityConfig[project.priority];
@@ -235,6 +277,7 @@ export default function ProjectsPage() {
             <motion.div
               key={project.id}
               {...fadeUp(i + 1)}
+              className="project-card"
               style={{
                 background: '#fff', border: '1px solid #e8e6e1',
                 borderRadius: 12, padding: '20px',
