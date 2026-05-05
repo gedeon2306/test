@@ -62,16 +62,48 @@ export default function SettingsPage() {
   };
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1000 }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1000, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 768px) {
+          .settings-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .sidebar-tabs {
+            width: 100% !important;
+            margin-bottom: 16px !important;
+          }
+          .sidebar-tabs button {
+            display: inline-flex !important;
+            width: auto !important;
+            margin-right: 8px !important;
+          }
+          .container {
+            padding: 0 12px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .header-text {
+            font-size: 18px !important;
+          }
+          .sidebar-tabs {
+            flex-wrap: wrap !important;
+          }
+          .sidebar-tabs button {
+            font-size: 11px !important;
+            padding: 8px 10px !important;
+          }
+        }
       `}</style>
 
       {/* Header */}
       <motion.div {...fadeUp(0)} style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+        <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
           Paramètres
         </h2>
         <p style={{ fontSize: 12.5, color: '#888580', margin: 0 }}>
@@ -79,41 +111,43 @@ export default function SettingsPage() {
         </p>
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 24 }}>
+      <div className="settings-grid" style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 24 }}>
         {/* Sidebar */}
         <motion.div {...fadeUp(1)} style={{
           background: '#fff', border: '1px solid #e8e6e1',
           borderRadius: 12, padding: '8px', height: 'fit-content',
         }}>
-          {tabs.map((tab, index) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  width: '100%', padding: '10px 12px',
-                  border: 'none', borderRadius: 8,
-                  background: isActive ? '#f5f4f1' : 'transparent',
-                  color: isActive ? '#1a1a1a' : '#888580',
-                  fontSize: 12.5, fontWeight: isActive ? 500 : 400,
-                  cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
-                  transition: 'all 0.15s', marginBottom: '2px',
-                  textAlign: 'left',
-                }}
-                onMouseEnter={e => { 
-                  if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = '#f9f8f7'; 
-                }}
-                onMouseLeave={e => { 
-                  if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; 
-                }}
-              >
-                <Icon size={14} style={{ flexShrink: 0 }} />
-                {tab.label}
-              </button>
-            );
-          })}
+          <div className="sidebar-tabs" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            {tabs.map((tab, index) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  style={{
+                    width: '100%', padding: '10px 12px',
+                    border: 'none', borderRadius: 8,
+                    background: isActive ? '#f5f4f1' : 'transparent',
+                    color: isActive ? '#1a1a1a' : '#888580',
+                    fontSize: 12.5, fontWeight: isActive ? 500 : 400,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
+                    transition: 'all 0.15s', marginBottom: '2px',
+                    textAlign: 'left',
+                  }}
+                  onMouseEnter={e => { 
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = '#f9f8f7'; 
+                  }}
+                  onMouseLeave={e => { 
+                    if (!isActive) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; 
+                  }}
+                >
+                  <Icon size={14} style={{ flexShrink: 0 }} />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </motion.div>
 
         {/* Content */}
