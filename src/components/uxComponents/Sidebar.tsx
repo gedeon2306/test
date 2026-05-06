@@ -237,40 +237,49 @@ export default function Sidebar() {
         </Link>
 
         {/* Avatar */}
-        {!collapsed && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              padding: '10px 10px 6px',
-            }}
-          >
-            <div style={{
-              width: 28, height: 28, borderRadius: '50%',
-              background: '#1a1a1a', flexShrink: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 10.5, fontWeight: 500, color: '#fff',
-            }}>
-              JD
+        <Link href="/dashboard/profil" style={{ textDecoration: 'none', display: 'block' }}>
+          {!collapsed && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '10px 10px 6px', borderRadius: 8,
+                transition: 'background 0.15s', cursor: 'pointer',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = '#f9f8f7'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = 'transparent'; }}
+            >
+              <div style={{
+                width: 28, height: 28, borderRadius: '50%',
+                background: '#1a1a1a', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 10.5, fontWeight: 500, color: '#fff',
+              }}>
+                JD
+              </div>
+              <div style={{ overflow: 'hidden' }}>
+                <p style={{ fontSize: 12, fontWeight: 500, color: '#1a1a1a', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Jean Dupont</p>
+                <p style={{ fontSize: 11, color: '#b0aeaa', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>jean@exemple.com</p>
+              </div>
+            </motion.div>
+          )}
+          {collapsed && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0 4px' }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: '50%',
+                background: '#1a1a1a', display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: 10.5, fontWeight: 500, color: '#fff',
+                transition: 'background 0.15s', cursor: 'pointer',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = '#333'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = '#1a1a1a'; }}
+              >
+                JD
+              </div>
             </div>
-            <div style={{ overflow: 'hidden' }}>
-              <p style={{ fontSize: 12, fontWeight: 500, color: '#1a1a1a', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Jean Dupont</p>
-              <p style={{ fontSize: 11, color: '#b0aeaa', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>jean@exemple.com</p>
-            </div>
-          </motion.div>
-        )}
-        {collapsed && (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0 4px' }}>
-            <div style={{
-              width: 28, height: 28, borderRadius: '50%',
-              background: '#1a1a1a', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: 10.5, fontWeight: 500, color: '#fff',
-            }}>
-              JD
-            </div>
-          </div>
-        )}
+          )}
+        </Link>
       </div>
     </motion.aside>
   );
