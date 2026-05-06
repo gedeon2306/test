@@ -203,16 +203,20 @@ export default function DashboardPage() {
                     whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                   }}>{t.title}</span>
                 </div>
-                <div className="task-meta">
+                <div>
                   <span style={{ fontSize: 11.5, color: '#888580' }}>{t.project}</span>
+                </div>
+                <div>
                   <span style={{
                     fontSize: 11, padding: '3px 8px', borderRadius: 5, width: 'fit-content',
                     background: st.bg, color: st.color, fontWeight: 400,
                   }}>{st.label}</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: pr.color }} />
-                    <span style={{ fontSize: 11.5, color: '#888580' }}>{t.priority}</span>
-                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: pr.color }} />
+                  <span style={{ fontSize: 11.5, color: '#888580' }}>{t.priority}</span>
+                </div>
+                <div>
                   <span style={{ fontSize: 11.5, color: '#888580' }}>{t.due}</span>
                 </div>
               </div>
