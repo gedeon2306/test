@@ -9,13 +9,14 @@ import {
   FiGrid, FiFolder, FiCalendar,
   FiUsers, FiSettings, FiChevronLeft, FiPlus, FiInbox,
 } from 'react-icons/fi';
+import { ROUTES } from '../../constants/routes';
 
 const NAV_ITEMS = [
-  { icon: FiGrid,        label: 'Vue d\'ensemble', href: '/dashboard' },
-  { icon: FiInbox,       label: 'Mes tâches',      href: '/dashboard/tasks' },
-  { icon: FiFolder,      label: 'Projets',          href: '/dashboard/projects' },
-  { icon: FiCalendar,    label: 'Calendrier',       href: '/dashboard/calendar' },
-  { icon: FiUsers,       label: 'Équipe',           href: '/dashboard/team' },
+  { icon: FiGrid,        label: 'Vue d\'ensemble', href: ROUTES.DASHBOARD.ROOT },
+  { icon: FiInbox,       label: 'Mes tâches',      href: ROUTES.DASHBOARD.TASKS },
+  { icon: FiFolder,      label: 'Projets',          href: ROUTES.DASHBOARD.PROJECTS },
+  { icon: FiCalendar,    label: 'Calendrier',       href: ROUTES.DASHBOARD.CALENDAR },
+  { icon: FiUsers,       label: 'Équipe',           href: ROUTES.DASHBOARD.TEAM },
 ];
 
 const PROJECTS = [
@@ -130,7 +131,7 @@ export default function Sidebar() {
       {/* Nav */}
       <nav style={{ flex: 1, padding: '12px 8px', overflowY: 'auto', overflowX: 'hidden' }}>
         {NAV_ITEMS.map(({ icon: Icon, label, href }) => {
-          const active = pathname === href;
+          const active = pathname === href || (href !== ROUTES.DASHBOARD.ROOT && pathname.startsWith(href));
           return (
             <Link key={href} href={href} style={{ textDecoration: 'none', display: 'block', marginBottom: 2 }}>
               <div style={{
@@ -209,7 +210,7 @@ export default function Sidebar() {
 
       {/* Settings */}
       <div style={{ padding: '8px', borderTop: '1px solid #f0efeb', flexShrink: 0 }}>
-        <Link href="/dashboard/settings" style={{ textDecoration: 'none', display: 'block' }}>
+        <Link href={ROUTES.DASHBOARD.SETTINGS} style={{ textDecoration: 'none', display: 'block' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '8px 10px', borderRadius: 8,
@@ -237,7 +238,7 @@ export default function Sidebar() {
         </Link>
 
         {/* Avatar */}
-        <Link href="/dashboard/profil" style={{ textDecoration: 'none', display: 'block' }}>
+        <Link href={ROUTES.DASHBOARD.PROFIL} style={{ textDecoration: 'none', display: 'block' }}>
           {!collapsed && (
             <motion.div
               initial={{ opacity: 0 }}
