@@ -15,7 +15,7 @@ const fadeUp = (i: number) => ({
 });
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState('security');
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState({
     email: true,
@@ -34,7 +34,6 @@ export default function SettingsPage() {
   });
 
   const tabs = [
-    { id: 'profile', label: 'Profil', icon: FiUser },
     { id: 'security', label: 'Sécurité', icon: FiLock },
     { id: 'notifications', label: 'Notifications', icon: FiBell },
     { id: 'appearance', label: 'Apparence', icon: FiMonitor },
@@ -155,108 +154,6 @@ export default function SettingsPage() {
           background: '#fff', border: '1px solid #e8e6e1',
           borderRadius: 12, padding: '24px',
         }}>
-          {/* Profile Tab */}
-          {activeTab === 'profile' && (
-            <div>
-              <h3 style={{ fontSize: 16, fontWeight: 500, color: '#1a1a1a', margin: '0 0 20px' }}>
-                Informations du profil
-              </h3>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
-                <div>
-                  <label style={{ fontSize: 12, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
-                    Prénom
-                  </label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%', padding: '8px 12px',
-                      border: '1px solid #e8e6e1', borderRadius: 8,
-                      fontSize: 12.5, color: '#1a1a1a',
-                      background: '#fff', outline: 'none',
-                    }}
-                  />
-                </div>
-                
-                <div>
-                  <label style={{ fontSize: 12, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
-                    Nom
-                  </label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    style={{
-                      width: '100%', padding: '8px 12px',
-                      border: '1px solid #e8e6e1', borderRadius: 8,
-                      fontSize: 12.5, color: '#1a1a1a',
-                      background: '#fff', outline: 'none',
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ fontSize: 12, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  style={{
-                    width: '100%', padding: '8px 12px',
-                    border: '1px solid #e8e6e1', borderRadius: 8,
-                    fontSize: 12.5, color: '#1a1a1a',
-                    background: '#fff', outline: 'none',
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ fontSize: 12, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
-                  Téléphone
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  style={{
-                    width: '100%', padding: '8px 12px',
-                    border: '1px solid #e8e6e1', borderRadius: 8,
-                    fontSize: 12.5, color: '#1a1a1a',
-                    background: '#fff', outline: 'none',
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ fontSize: 12, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
-                  Bio
-                </label>
-                <textarea
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  rows={3}
-                  style={{
-                    width: '100%', padding: '8px 12px',
-                    border: '1px solid #e8e6e1', borderRadius: 8,
-                    fontSize: 12.5, color: '#1a1a1a',
-                    background: '#fff', outline: 'none',
-                    resize: 'vertical',
-                  }}
-                />
-              </div>
-            </div>
-          )}
-
           {/* Security Tab */}
           {activeTab === 'security' && (
             <div>

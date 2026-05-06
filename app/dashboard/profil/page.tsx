@@ -90,11 +90,18 @@ export default function ProfilePage() {
   };
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1000, padding: '0 16px' }}>
+      <div className="container" style={{ fontFamily: "'DM Sans', sans-serif", maxWidth: 1000, padding: '0 16px' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #e8e6e1; border-radius: 2px; }
+        
+        @media (max-width: 1024px) {
+          .profile-grid {
+            grid-template-columns: 280px 1fr !important;
+            gap: 20px !important;
+          }
+        }
         
         @media (max-width: 768px) {
           .profile-grid {
@@ -123,6 +130,14 @@ export default function ProfilePage() {
           .container {
             padding: 0 12px !important;
           }
+          .basic-info-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
         }
         
         @media (max-width: 480px) {
@@ -141,12 +156,45 @@ export default function ProfilePage() {
             height: 64px !important;
             font-size: 20px !important;
           }
+          .header-actions {
+            flex-direction: column !important;
+            gap: 8px !important;
+            align-items: flex-start !important;
+          }
+          .profile-card {
+            padding: 16px !important;
+          }
+          .content-card {
+            padding: 16px !important;
+          }
+          .social-links {
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+          }
+        }
+        
+        @media (max-width: 360px) {
+          .container {
+            padding: 0 8px !important;
+          }
+          .profile-avatar {
+            width: 56px !important;
+            height: 56px !important;
+            font-size: 18px !important;
+          }
+          .header-text {
+            font-size: 16px !important;
+          }
+          .button-text {
+            font-size: 10px !important;
+            padding: 5px 10px !important;
+          }
         }
       `}</style>
 
       {/* Header */}
       <motion.div {...fadeUp(0)} style={{ marginBottom: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+        <div className="header-actions" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div>
             <h2 className="header-text" style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
               Profil
@@ -180,7 +228,7 @@ export default function ProfilePage() {
         {/* Left sidebar */}
         <div className="profile-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Profile card */}
-          <motion.div {...fadeUp(1)} style={{
+          <motion.div {...fadeUp(1)} className="profile-card" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '24px', textAlign: 'center',
           }}>
@@ -211,7 +259,7 @@ export default function ProfilePage() {
               {formData.title}
             </p>
             
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 8 }}>
+            <div className="social-links" style={{ display: 'flex', justifyContent: 'center', gap: 8 }}>
               {formData.github && (
                 <a href={`https://github.com/${formData.github}`} style={{
                   width: 32, height: 32, borderRadius: 6,
@@ -264,7 +312,7 @@ export default function ProfilePage() {
           </motion.div>
 
           {/* Stats */}
-          <motion.div {...fadeUp(2)} style={{
+          <motion.div {...fadeUp(2)} className="content-card" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '16px',
           }}>
@@ -290,7 +338,7 @@ export default function ProfilePage() {
         {/* Main content */}
         <div className="profile-main" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Basic info */}
-          <motion.div {...fadeUp(3)} style={{
+          <motion.div {...fadeUp(3)} className="content-card" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '20px',
           }}>
@@ -298,7 +346,7 @@ export default function ProfilePage() {
               Informations personnelles
             </h3>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+            <div className="basic-info-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
               <div>
                 <label style={{ fontSize: 11.5, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
                   Prénom
@@ -380,7 +428,7 @@ export default function ProfilePage() {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <div>
                 <label style={{ fontSize: 11.5, color: '#b0aeaa', display: 'block', marginBottom: 6 }}>
                   Email
@@ -417,7 +465,7 @@ export default function ProfilePage() {
           </motion.div>
 
           {/* Skills */}
-          <motion.div {...fadeUp(4)} style={{
+          <motion.div {...fadeUp(4)} className="content-card" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '20px',
           }}>
@@ -455,7 +503,7 @@ export default function ProfilePage() {
           </motion.div>
 
           {/* Recent projects */}
-          <motion.div {...fadeUp(5)} className="projects-grid" style={{
+          <motion.div {...fadeUp(5)} className="content-card projects-grid" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '20px',
           }}>
@@ -503,7 +551,7 @@ export default function ProfilePage() {
           </motion.div>
 
           {/* Achievements */}
-          <motion.div {...fadeUp(6)} style={{
+          <motion.div {...fadeUp(6)} className="content-card" style={{
             background: '#fff', border: '1px solid #e8e6e1',
             borderRadius: 12, padding: '20px',
           }}>
