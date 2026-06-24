@@ -612,3 +612,57 @@ npm run dev
 Ouvre **http://localhost:3000**
 
 ---
+
+## PARTIE 9 — Flux complet
+
+```
+1. Clic "Login Google"  sur localhost:3000
+        ↓
+2. NextAuth redirige vers Google
+        ↓
+3. L'utilisateur accepte
+        ↓
+4. Google redirige vers localhost:3000/api/auth/callback/google
+        ↓
+5. NextAuth reçoit le profil
+        ↓
+6. Prisma Adapter crée automatiquement le User + Account dans Supabase
+        ↓
+7. NextAuth crée une session dans la table Session
+        ↓
+8. Redirection vers /dashboard
+        ↓
+9. useSession() retourne le profil → affiché à l'écran
+```
+
+---
+
+## PARTIE 10 — Structure finale des fichiers
+
+```
+auth-demo/
+├── .env
+├── prisma/
+│   └── schema.prisma
+├── lib/
+│   └── prisma.ts
+└── app/
+    ├── layout.tsx
+    ├── globals.css
+    ├── SessionWrapper.tsx
+    ├── page.tsx                         ← login
+    ├── dashboard/
+    │   └── page.tsx                     ← profil
+    └── api/
+        └── auth/
+            └── [...nextauth]/
+                └── route.ts             ← cœur NextAuth
+```
+
+## Vérifier les données dans Supabase
+
+Après ta première connexion, va dans :
+```
+Supabase → Table Editor
+```
+Tu verras tes tables **User**, **Account**, **Session** remplies automatiquement par Prisma.
