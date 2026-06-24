@@ -108,3 +108,195 @@ auth-demo/
 ---
 
 ## PARTIE 5 — Configuration
+
+### .env
+
+```env
+# Supabase
+DATABASE_URL="postgresql://postgres:[MOT-DE-PASSE]@db.xxxxxxxxxxxx.supabase.co:5432/postgres"
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=une-chaine-aleatoire-longue-ici
+
+# Google
+GOOGLE_CLIENT_ID=xxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=xxxxx
+
+# GitHub
+GITHUB_CLIENT_ID=xxxxx
+GITHUB_CLIENT_SECRET=xxxxx
+```
+
+> Pour générer un NEXTAUTH_SECRET :
+> ```bash
+> openssl rand -base64 32
+> ```
+
+---
+
+## PARTIE 6 — Schéma Prisma
+
+Remplace tout le contenu de `prisma/schema.prisma` :
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Table des comptes OAuth (Google, GitHub...)
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// Table des sessions actives
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Table des utilisateurs
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+// Table pour la vérification email (requis par NextAuth)
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+```
+
+### Envoyer le schéma à Supabase
+
+```bash
+npx prisma db push
+```
+
+Prisma crée toutes les tables dans ta BDD Supabase automatiquement.
+
+### Générer le client Prisma
+
+```bash
+npx prisma generate
+```
+
+---
+
+## PARTIE 7 — Code Next.js
+
+### lib/prisma.ts
+
+Ce fichier crée une instance unique de Prisma (important en dev pour éviter trop de connexions) :
+
+```typescript
+// lib/prisma.ts
+import { PrismaClient } from '@prisma/client'
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
+}
+
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: ['query'],
+  })
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma
+}
+```
+
+---
+
+### app/api/auth/[...nextauth]/route.ts
+
+C'est le cœur de NextAuth. Il utilise l'adapter Prisma pour tout gérer en BDD automatiquement.
+
+```typescript
+// app/api/auth/[...nextauth]/route.ts
+import NextAuth from 'next-auth'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import GoogleProvider from 'next-auth/providers/google'
+import GithubProvider from 'next-auth/providers/github'
+import { prisma } from '@/lib/prisma'
+
+const handler = NextAuth({
+  // L'adapter Prisma gère tout en BDD automatiquement
+  adapter: PrismaAdapter(prisma),
+
+  providers: [
+    GoogleProvider({
+      clientId:     process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    GithubProvider({
+      clientId:     process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
+  ],
+
+  callbacks: {
+    // Ajoute le provider dans la session pour l'afficher côté client
+    async session({ session, user }) {
+      if (session.user) {
+        (session.user as any).id       = user.id
+        // Récupère le provider depuis la table Account
+        const account = await prisma.account.findFirst({
+          where: { userId: user.id },
+          select: { provider: true },
+        })
+        ;(session.user as any).provider = account?.provider ?? ''
+      }
+      return session
+    },
+  },
+
+  pages: {
+    signIn: '/',   // notre page de login custom
+  },
+})
+
+export { handler as GET, handler as POST }
+```
+
+---
+
+### app/SessionWrapper.tsx
+
+```typescript
+// app/SessionWrapper.tsx
+'use client'
