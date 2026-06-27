@@ -50,7 +50,22 @@ export default function LoginPage() {
         <div style={{ flex: 1, height: 1, background: '#e8e6e1' }} />
       </div>
 
-      
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        {/* Email */}
+        <FormField
+          type="email"
+          label="Email"
+          placeholder="vous@exemple.com"
+          value={email}
+          onChange={setEmail}
+          focused={focused}
+          onFocus={setFocused}
+          onBlur={() => setFocused(null)}
+          fieldName="email"
+        />
+
+      </form>
     </AuthLayout>
   );
 }
