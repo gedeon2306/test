@@ -26,5 +26,14 @@ export default function LoginPage() {
     setTimeout(() => setLoadingForm(false), 2000);
   };
 
-  
+  return (
+    <AuthLayout
+      title="Bon retour"
+      subtitle="Connectez-vous à votre espace de travail"
+      footerText="Pas encore de compte ?"
+      footerLink={{ text: 'Créer un compte', href: '/auth/register' }}
+    >
+      
+    </AuthLayout>
+  );
 }
