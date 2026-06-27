@@ -65,6 +65,34 @@ export default function LoginPage() {
           fieldName="email"
         />
 
+        {/* Password */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+            <label style={{ fontSize: 11.5, fontWeight: 500, color: '#888580', letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+              Mot de passe
+            </label>
+            <a href="#" style={{ fontSize: 11.5, color: '#888580', textDecoration: 'none' }}
+              onMouseEnter={e => { (e.target as HTMLAnchorElement).style.color = '#1a1a1a'; }}
+              onMouseLeave={e => { (e.target as HTMLAnchorElement).style.color = '#888580'; }}>
+              Oublié ?
+            </a>
+          </div>
+          <FormField
+            type="password"
+            label=""
+            placeholder="••••••••"
+            value={password}
+            onChange={setPassword}
+            focused={focused}
+            onFocus={setFocused}
+            onBlur={() => setFocused(null)}
+            fieldName="password"
+            showPasswordToggle={true}
+            showPassword={showPassword}
+            onTogglePassword={() => setShowPassword(!showPassword)}
+          />
+        </div>
+
       </form>
     </AuthLayout>
   );
