@@ -93,6 +93,36 @@ export default function LoginPage() {
           />
         </div>
 
+        {/* Submit */}
+        <motion.button
+          whileTap={{ scale: 0.98 }}
+          type="submit"
+          disabled={loadingForm}
+          style={{
+            marginTop: 4,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+            width: '100%', height: 38,
+            background: '#1a1a1a',
+            border: '1px solid #1a1a1a',
+            borderRadius: 9,
+            fontSize: 12.5, fontWeight: 500, color: '#fff',
+            cursor: loadingForm ? 'not-allowed' : 'pointer',
+            transition: 'background 0.15s',
+            fontFamily: "'DM Sans', sans-serif",
+            opacity: loadingForm ? 0.7 : 1,
+          }}
+          onMouseEnter={e => { if (!loadingForm) (e.currentTarget as HTMLButtonElement).style.background = '#333'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a1a'; }}
+        >
+          {loadingForm ? (
+            <Spinner color="#ffffff" />
+          ) : (
+            <>
+              Se connecter
+              <FiArrowRight size={13} />
+            </>
+          )}
+        </motion.button>
       </form>
     </AuthLayout>
   );
