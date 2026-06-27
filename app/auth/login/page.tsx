@@ -43,6 +43,14 @@ export default function LoginPage() {
         githubText="Continuer avec GitHub"
       />
 
+      {/* Divider */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0' }}>
+        <div style={{ flex: 1, height: 1, background: '#e8e6e1' }} />
+        <span style={{ fontSize: 11.5, color: '#b0aeaa', fontWeight: 400 }}>ou</span>
+        <div style={{ flex: 1, height: 1, background: '#e8e6e1' }} />
+      </div>
+
+      
     </AuthLayout>
   );
 }
