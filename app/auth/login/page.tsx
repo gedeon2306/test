@@ -33,7 +33,16 @@ export default function LoginPage() {
       footerText="Pas encore de compte ?"
       footerLink={{ text: 'Créer un compte', href: '/auth/register' }}
     >
-      
+      {/* OAuth buttons */}
+      <OAuthButtons
+        loadingGoogle={loadingGoogle}
+        loadingGithub={loadingGithub}
+        onGoogleClick={() => handleOAuth('google')}
+        onGithubClick={() => handleOAuth('github')}
+        googleText="Continuer avec Google"
+        githubText="Continuer avec GitHub"
+      />
+
     </AuthLayout>
   );
 }
