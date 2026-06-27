@@ -15,4 +15,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleOAuth = (provider: 'google' | 'github') => {
+    if (provider === 'google') { setLoadingGoogle(true); setTimeout(() => setLoadingGoogle(false), 2000); }
+    else { setLoadingGithub(true); setTimeout(() => setLoadingGithub(false), 2000); }
+  };
+
 }
