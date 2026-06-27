@@ -20,4 +20,11 @@ export default function LoginPage() {
     else { setLoadingGithub(true); setTimeout(() => setLoadingGithub(false), 2000); }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoadingForm(true);
+    setTimeout(() => setLoadingForm(false), 2000);
+  };
+
+  
 }
